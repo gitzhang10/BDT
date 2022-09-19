@@ -44,9 +44,14 @@ class HoneyBadgerBFTNode (HoneyBadgerBFT):
     def prepare_bootstrap(self):
         self.logger.info('node id %d is inserting dummy payload TXs' % (self.id))
         if self.mode == 'test' or 'debug':
-            for r in range(self.K * self.B):
-                tx = tx_generator(250) # Set each dummy TX to be 250 Byte
-                HoneyBadgerBFT.submit_tx(self, tx)
+            tx = tx_generator(250) # Set each dummy TX to be 250 Byte
+            k = 0
+            for _ in range(self.K):
+                for r in range(self.B):
+                    HoneyBadgerBFT.submit_tx(self, tx.replace(">", hex(r) + ">"))
+                    k += 1
+                    if r % 50000 == 0:
+                        self.logger.info('node id %d just inserts 50000 TXs' % (self.id))
         else:
             pass
             # TODO: submit transactions through tx_buffer
