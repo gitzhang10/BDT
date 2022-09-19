@@ -327,7 +327,7 @@ class HoneyBadgerBFT():
 
         _output = honeybadger_block(pid, self.N, self.f, self.ePK, self.eSK,
                           _input.get,
-                          acs_in=my_rbc_input.put_nowait, acs_out=acs.get,
+                          acs_put_in=my_rbc_input.put_nowait, acs_get_out=acs.get,
                           tpke_bcast=tpke_bcast, tpke_recv=tpke_recv.get)
 
         block = set()
