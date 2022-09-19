@@ -2,6 +2,8 @@ import json
 import traceback, time
 import gevent
 import numpy as np
+import logging
+import os
 from collections import namedtuple, deque
 from enum import Enum
 from gevent.queue import Queue
@@ -11,6 +13,20 @@ from honeybadgerbft.core.reliablebroadcast import reliablebroadcast
 from honeybadgerbft.core.commonsubset import commonsubset
 from honeybadgerbft.core.honeybadger_block import honeybadger_block
 from honeybadgerbft.exceptions import UnknownTagError
+
+
+def set_consensus_log(id: int):
+    logger = logging.getLogger("consensus-node-"+str(id))
+    logger.setLevel(logging.DEBUG)
+    formatter = logging.Formatter(
+        '%(asctime)s %(filename)s [line:%(lineno)d] %(funcName)s %(levelname)s %(message)s ')
+    if 'log' not in os.listdir(os.getcwd()):
+        os.mkdir(os.getcwd() + '/log')
+    full_path = os.path.realpath(os.getcwd()) + '/log/' + "consensus-node-"+str(id) + ".log"
+    file_handler = logging.FileHandler(full_path)
+    file_handler.setFormatter(formatter)  # 可以通过setFormatter指定输出格式
+    logger.addHandler(file_handler)
+    return logger
 
 
 class BroadcastTag(Enum):
@@ -80,7 +96,7 @@ class HoneyBadgerBFT():
         self.eSK = eSK
         self._send = send
         self._recv = recv
-        self.logger = logger
+        self.logger = set_consensus_log(pid)
         self.round = 0  # Current block number
         self.transaction_buffer = deque()
         self._per_round_recv = {}  # Buffer of incoming messages
