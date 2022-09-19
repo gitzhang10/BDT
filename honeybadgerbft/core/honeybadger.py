@@ -243,17 +243,20 @@ class HoneyBadgerBFT():
                 send(j, o)
 
         # Launch ACS, ABA, instances
-        coin_recvs = [None] * N
-        aba_recvs  = [None] * N  # noqa: E221
-        rbc_recvs  = [None] * N  # noqa: E221
+        # coin_recvs = [None] * N
+        # aba_recvs  = [None] * N  # noqa: E221
+        # rbc_recvs  = [None] * N  # noqa: E221
+        coin_recvs = [Queue() for _ in range(N)]
+        aba_recvs = [Queue() for _ in range(N)]
+        rbc_recvs = [Queue() for _ in range(N)]
 
         aba_inputs  = [Queue(1) for _ in range(N)]  # noqa: E221
         aba_outputs = [Queue(1) for _ in range(N)]
         rbc_outputs = [Queue(1) for _ in range(N)]
 
         my_rbc_input = Queue(1)
-        #print(pid, r, 'tx_to_send:', tx_to_send)
-        #if self.logger != None: self.logger.info('Commit tx at Node %d:' % self.id + str(tx_to_send))
+        # print(pid, r, 'tx_to_send:', tx_to_send)
+        # if self.logger != None: self.logger.info('Commit tx at Node %d:' % self.id + str(tx_to_send))
 
         def _setup(j):
             """Setup the sub protocols RBC, BA and common coin.
@@ -265,8 +268,7 @@ class HoneyBadgerBFT():
                 :param o: Value to multicast.
                 """
                 broadcast(('ACS_COIN', j, o))
-
-            coin_recvs[j] = Queue()
+            # coin_recvs[j] = Queue()
             coin = shared_coin(sid + 'COIN' + str(j), pid, N, f,
                                self.sPK, self.sSK,
                                coin_bcast, coin_recvs[j].get)
@@ -278,8 +280,7 @@ class HoneyBadgerBFT():
                 """
                 send(k, ('ACS_ABA', j, o))
 
-
-            aba_recvs[j] = Queue()
+            # aba_recvs[j] = Queue()
             gevent.spawn(binaryagreement, sid+'ABA'+str(j), pid, N, f, coin,
                          aba_inputs[j].get, aba_outputs[j].put_nowait,
                          aba_recvs[j].get, aba_send)
@@ -293,7 +294,7 @@ class HoneyBadgerBFT():
 
             # Only leader gets input
             rbc_input = my_rbc_input.get if j == pid else None
-            rbc_recvs[j] = Queue()
+            # rbc_recvs[j] = Queue()
             rbc = gevent.spawn(reliablebroadcast, sid+'RBC'+str(j), pid, N, f, j,
                                rbc_input, rbc_recvs[j].get, rbc_send)
             rbc_outputs[j] = rbc.get  # block for output from rbc
