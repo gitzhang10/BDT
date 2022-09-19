@@ -98,7 +98,7 @@ class HoneyBadgerBFT():
         self._recv = recv
         self.logger = set_consensus_log(pid)
         self.round = 0  # Current block number
-        self.transaction_buffer = deque()
+        self.transaction_buffer = Queue()
         self._per_round_recv = {}  # Buffer of incoming messages
         self.K = K
 
@@ -116,7 +116,7 @@ class HoneyBadgerBFT():
         """
         #print('backlog_tx', self.id, tx)
         #if self.logger != None: self.logger.info('Backlogged tx at Node %d:' % self.id + str(tx))
-        self.transaction_buffer.append(tx)
+        self.transaction_buffer.put_nowait(tx)
 
     def run_bft(self):
         """Run the HoneyBadgerBFT protocol."""
@@ -173,7 +173,7 @@ class HoneyBadgerBFT():
             # Select B transactions (TODO: actual random selection)
             tx_to_send = []
             for _ in range(self.B):
-                tx_to_send.append(self.transaction_buffer.popleft())
+                tx_to_send.append(self.transaction_buffer.get_nowait())
 
             # TODO: Wait a bit if transaction buffer is not full
 
@@ -201,9 +201,9 @@ class HoneyBadgerBFT():
                 self.logger.info('ACS Block Delay at Round %d at Node %d: ' % (self.id, r) + str(end - start))
 
             # Remove output transactions from the backlog buffer
-            for _tx in tx_to_send:
-                if _tx not in new_tx:
-                    self.transaction_buffer.appendleft(_tx)
+            # for _tx in tx_to_send:
+            #     if _tx not in new_tx:
+            #         self.transaction_buffer.appendleft(_tx)
 
             #print('buffer at %d:' % self.id, self.transaction_buffer)
             #if self.logger != None:
