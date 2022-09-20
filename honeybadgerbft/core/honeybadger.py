@@ -142,17 +142,19 @@ class HoneyBadgerBFT():
             """Receive messages."""
             while True:
 
-                gevent.sleep(0)
-                time.sleep(0)
+                # gevent.sleep(0)
+                # time.sleep(0)
+                try:
+                    (sender, (r, msg)) = self._recv()
 
-                (sender, (r, msg)) = self._recv()
+                    # Maintain an *unbounded* recv queue for each epoch
+                    if r not in self._per_round_recv:
+                        self._per_round_recv[r] = Queue()
 
-                # Maintain an *unbounded* recv queue for each epoch
-                if r not in self._per_round_recv:
-                    self._per_round_recv[r] = Queue()
-
-                # Buffer this message
-                self._per_round_recv[r].put_nowait((sender, msg))
+                    # Buffer this message
+                    self._per_round_recv[r].put_nowait((sender, msg))
+                except:
+                    continue
 
         # self._recv_thread = gevent.spawn(_recv)
         self._recv_thread = Greenlet(_recv)
@@ -165,8 +167,8 @@ class HoneyBadgerBFT():
         while True:
             # For each round...
 
-            gevent.sleep(0)
-            time.sleep(0)
+            # gevent.sleep(0)
+            # time.sleep(0)
 
             start = time.time()
 
