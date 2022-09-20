@@ -216,6 +216,7 @@ class HoneyBadgerBFT():
             #    self.logger.info('Backlog Buffer at Node %d:' % self.id + str(self.transaction_buffer))
 
             self.round += 1     # Increment the round
+            print("node %d finished round %d" % self.id, self.round)
             if self.round >= self.K:
                 break   # Only run one round for now
 
