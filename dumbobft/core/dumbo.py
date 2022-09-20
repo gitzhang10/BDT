@@ -215,6 +215,7 @@ class Dumbo():
             #    self.logger.info('Backlog Buffer at Node %d:' % self.id + str(self.transaction_buffer))
 
             self.round += 1     # Increment the round
+            print("node %d finished round %d" % self.id, self.round)
             if self.round >= self.K:
                 break   # Only run one round for now
 
@@ -224,10 +225,12 @@ class Dumbo():
         else:
             print("node %d breaks" % self.id)
 
-        #print("*******************************************")
-        #print('* Node %d breaks the test' % self.id )
-        #print("    - Average latency: %.12f seconds" % ((self.e_time-self.s_time) / self.K) )
-        #print("    - Average throughput: %.9f tps" % (tx_cnt * self.K  / ((self.e_time-self.s_time))))
+        print("*******************************************")
+
+        print("Average latency (sec): %.12f" % ((self.e_time - self.s_time) / self.K))
+        print("Average throughput (txPerSec): %.9f" % (tx_cnt * self.K / ((self.e_time - self.s_time))))
+
+        print("*******************************************")
 
         #self._recv_thread.join(timeout=2)
 
