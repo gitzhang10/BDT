@@ -225,6 +225,13 @@ class HoneyBadgerBFT():
         else:
             print("node %d breaks" % self.id)
 
+        print("*******************************************")
+
+        print("Average latency (sec): %.12f" % ((self.e_time - self.s_time) / self.K))
+        print("Average throughput (txPerSec): %.9f" % (tx_cnt * self.K / ((self.e_time - self.s_time))))
+
+        print("*******************************************")
+
 
     def _run_round(self, r, tx_to_send, send, recv):
         """Run one protocol round.
