@@ -6,6 +6,7 @@ import logging
 import os
 from collections import namedtuple, deque
 from enum import Enum
+from gevent import Greenlet
 from gevent.queue import Queue
 from honeybadgerbft.core.commoncoin import shared_coin
 from honeybadgerbft.core.binaryagreement import binaryagreement
@@ -153,10 +154,13 @@ class HoneyBadgerBFT():
                 # Buffer this message
                 self._per_round_recv[r].put_nowait((sender, msg))
 
-        self._recv_thread = gevent.spawn(_recv)
-
+        # self._recv_thread = gevent.spawn(_recv)
+        self._recv_thread = Greenlet(_recv)
+        self._recv_thread.start()
         self.s_time = time.time()
         if self.logger != None: self.logger.info('Node %d starts to run at time:' % self.id + str(self.s_time))
+
+        print('Node %d starts Honeybadger BFT consensus' % self.id)
 
         while True:
             # For each round...
