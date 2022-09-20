@@ -206,7 +206,7 @@ def reliablebroadcast(sid, pid, N, f, leader, input, receive, send):
         stripes = encode(K, N, m)
         mt = merkleTree(stripes)  # full binary tree
         roothash = mt[1]
-        print("VAL message is sent by:", pid, leader)
+        # print("VAL message is sent by:", pid, leader)
         for i in range(N):
             branch = getMerkleBranch(i, mt)
             send(i, ('VAL', roothash, branch, stripes[i]))
@@ -234,6 +234,7 @@ def reliablebroadcast(sid, pid, N, f, leader, input, receive, send):
     while True:  # main receive loop
 
         sender, msg = receive()
+        print("VAL message is from:", sender)
         if msg[0] == 'VAL' and fromLeader is None:
             # Validation
             (_, roothash, branch, stripe) = msg
