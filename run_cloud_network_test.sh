@@ -21,6 +21,7 @@ N=4
    echo $i ${priIPsVar[$i]} ${pubIPsVar[$i]} $(( $((200 * $i)) + 10000 )) >> tmp_hosts.config
    i=$(( i+1 ))
  done
+ wait
  i=0; while [ $i -le $(( N-1 )) ]; do
    ssh -o "StrictHostKeyChecking no" -i "/home/vagrant/.ssh/dumbo.pem" vagrant@${pubIPsVar[i]} "rm /home/vagrant/BDT/hosts.config"
    scp -i "/home/vagrant/.ssh/dumbo.pem" tmp_hosts.config vagrant@${pubIPsVar[i]}:/home/vagrant/BDT/hosts.config &
