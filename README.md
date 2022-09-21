@@ -2,6 +2,14 @@ Proof-of-Concept implementation for practical dual-mode asynchronous BFT consens
 The code is forked from the implementation of Honeybadger-BFT protocol.
 The pessimistic fallback path is instantiated by Dumbo-2 (Guo et al. CCS'2020),
 so the codebase also includes a PoC implementation for Dumbo-2 as a by-product.
+0. 关于在云上跑的一些补充：
+   生成钥匙
+   cd ~
+   ssh-keygen
+   openssl rsa -in id_rsa -outform pem > dumbo.pem
+   sudo chmod 600 dumbo.pem
+   设置免密登录
+   ssh-copy-id -i id_rsa.pub host@ip
 
 1. To run the benchmarks at your local machine (with Ubuntu 18.84 LTS), first install all dependencies as follows:
     ```
