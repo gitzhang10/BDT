@@ -23,7 +23,10 @@ N=4
  done
 wait
 # Install dependencies to all remote AWS servers from github
-i=0; while [ $i -le $(( N-1 )) ]; do
-ssh -i "/home/vagrant/.ssh/dumbo.pem" -o StrictHostKeyChecking=no vagrant@${pubIPsVar[i]} "cd BDT; chmod +x installDependencies.sh; ./installDependencies.sh" &
-i=$(( i+1 ))
+for (( i = 0; i <= $(( N-1 )); i++ ))
+do
+{ ssh -i "/home/vagrant/.ssh/dumbo.pem" -o StrictHostKeyChecking=no vagrant@${pubIPsVar[i]} "cd BDT; chmod +x installDependencies.sh; ./installDependencies.sh" 
+}&
 done
+wait
+echo "finish"
