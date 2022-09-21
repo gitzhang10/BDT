@@ -21,7 +21,7 @@ N=4
  ssh -i "/home/vagrant/.ssh/dumbo.pem" -o StrictHostKeyChecking=no vagrant@${pubIPsVar[i]} "git clone https://github.com/gitzhang10/BDT.git" &
  i=$(( i+1 ))
  done
-
+wait
 # Install dependencies to all remote AWS servers from github
 i=0; while [ $i -le $(( N-1 )) ]; do
 ssh -i "/home/vagrant/.ssh/dumbo.pem" -o StrictHostKeyChecking=no vagrant@${pubIPsVar[i]} "cd BDT; chmod +x installDependencies.sh; ./installDependencies.sh" &
