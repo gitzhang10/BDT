@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # the number of remove AWS servers
 N=4
