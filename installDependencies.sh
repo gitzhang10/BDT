@@ -35,6 +35,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 
 git clone https://github.com/JHUISI/charm.git
 cd charm
+sudo pip3 install -r requirements.txt
 sudo ./configure.sh
 sudo make
 sudo make install
