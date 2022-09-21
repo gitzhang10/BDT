@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # the number of remove AWS servers
-N = 4
+N=4
 
 # public IPs --- This is the public IPs of AWS servers
  pubIPsVar=([0]='192.168.1.2'
