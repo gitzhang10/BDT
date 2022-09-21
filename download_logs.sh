@@ -19,6 +19,6 @@ N=4
  i=0
  while [ $i -le $(( N-1 )) ]
  do
-   scp -i "/home/vagrant/.ssh/dumbo.pem" vagrant@${pubIPsVar[i]}:/home/vagrant/BDT/node-$i.out node-$i.log &
+   scp -i "/home/vagrant/.ssh/dumbo.pem" vagrant@${pubIPsVar[i]}:/home/vagrant/BDT/node-$i.out /vagrant/logs/node-$i.log &
    i=$(( i+1 ))
  done
