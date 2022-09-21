@@ -17,7 +17,7 @@ priIPsVar[3]='192.168.1.5'
 
 # Clone code to all remote AWS servers from github
 i=0; while [ $i -le $(( N-1 )) ]; do
-ssh -o "StrictHostKeyChecking no" -i "/home/vagrant/.ssh/dumbo.pem" vagrant@${pubIPsVar[i]} "rm /home/vagrant/BDT"
+ssh -o "StrictHostKeyChecking no" -i "/home/vagrant/.ssh/dumbo.pem" vagrant@${pubIPsVar[i]} "rm -rf /home/vagrant/BDT"
 ssh -i "/home/vagrant/.ssh/dumbo.pem" -o StrictHostKeyChecking=no vagrant@${pubIPsVar[i]} "git clone https://github.com/gitzhang10/BDT.git" &
 i=$(( i+1 ))
 done
