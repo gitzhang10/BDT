@@ -21,6 +21,12 @@ ssh -i "/home/vagrant/.ssh/dumbo.pem" -o StrictHostKeyChecking=no vagrant@${pubI
 i=$(( i+1 ))
 done
 
+# Install dependencies to all remote AWS servers from github
+i=0; while [ $i -le $(( N-1 )) ]; do
+ssh -i "/home/vagrant/.ssh/dumbo.pem" -o StrictHostKeyChecking=no vagrant@${pubIPsVar[i]} "cd BDT; chmod +x installDependencies.sh; ./installDependencies.sh" &
+i=$(( i+1 ))
+done
+
 # Update IP addresses to all remote AWS servers 
 rm tmp_hosts.config
 i=0; while [ $i -le $(( N-1 )) ]; do
