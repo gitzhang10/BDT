@@ -31,10 +31,5 @@ N=4
  # Start Protocols at all remote AWS servers
  i=0; while [ $i -le $(( N-1 )) ]; do   ssh -i "/home/vagrant/.ssh/dumbo.pem" vagrant@${pubIPsVar[i]} "export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/lib; export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib; cd BDT; nohup python3 run_socket_node.py --sid 'sidA' --id $i --N $N --f $(( (N-1)/3 )) --B 1000 --K 20 --S 50 --T 2 --P "dumbo" --F 1000000 > node-$i.out" &   i=$(( i+1 )); done
  wait
- # Download logs from all remote AWS servers to your local PC
- i=0
- while [ $i -le $(( N-1 )) ]
- do
-   scp -i "/home/vagrant/.ssh/dumbo.pem" vagrant@${pubIPsVar[i]}:/home/vagrant/BDT/log/node-$i.log node-$i.log &
-   i=$(( i+1 ))
- done
+ echo "finish"
+
