@@ -107,7 +107,7 @@ if __name__ == '__main__':
                 addresses[pid] = (pub_ip, port)
         assert all([node is not None for node in addresses])
         print("hosts.config is correctly read")
-
+        print(my_address)
         # bft_from_server, server_to_bft = mpPipe(duplex=True)
         # client_from_bft, bft_to_client = mpPipe(duplex=True)
 
