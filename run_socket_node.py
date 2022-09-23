@@ -143,6 +143,7 @@ if __name__ == '__main__':
         bft_thread = Greenlet(bft.run)
         print("start")
         bft_thread.start()
+        print("over")
         bft_thread.join()
 
         with stop.get_lock():
