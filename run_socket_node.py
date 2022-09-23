@@ -141,10 +141,8 @@ if __name__ == '__main__':
             net_ready.value = True
 
         bft_thread = Greenlet(bft.run)
-        print("start")
         bft_thread.start()
         bft_thread.join()
-        print("over")
 
         with stop.get_lock():
             stop.value = True
