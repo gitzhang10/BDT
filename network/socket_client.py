@@ -79,7 +79,7 @@ class NetworkClient (Process):
         sock = socket.socket()
     
         try:
-            sock.bind((self.ip, self.port + j + random.randint(1, 100)))
+            sock.bind((self.ip, self.port + j + 10))
         except:
             return False
         
