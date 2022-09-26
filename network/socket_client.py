@@ -77,11 +77,12 @@ class NetworkClient (Process):
 
     def _connect(self, j: int):
         sock = socket.socket()
-        if self.ip == '127.0.0.1':
-            try:
-                sock.bind((self.ip, self.port + j + random.randint(1, 100)))
-            except:
-                return False
+    
+        try:
+            sock.bind((self.ip, self.port + j + random.randint(1, 100)))
+        except:
+            return False
+        
         try:
             sock.connect(self.addresses_list[j])
             self.socks[j] = sock
