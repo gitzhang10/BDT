@@ -36,7 +36,6 @@ class NetworkServer (Process):
 
         def _handler(sock, address):
             jid = self._address_to_id(address)
-            self.logger.info(jid, address)
             buf = b''
             try:
                 while not self.stop.value:
